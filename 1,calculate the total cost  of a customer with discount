@@ -1,0 +1,12 @@
+import numpy as np
+item_prices=np.array([10,20,30])
+item_quantities=np.array([2,1,2])
+discount_rate=0.1
+tax_rate=0.08
+subtotal=item_prices*item_quantities
+total_cost_before_discount=np.sum(subtotal)
+discounted_total=total_cost_before_discount*(1-discount_rate)
+tax_amount=discounted_total*tax_rate
+final_total_cost=discounted_total+tax_amount
+print("final taotal cost:",final_total_cost)
+
