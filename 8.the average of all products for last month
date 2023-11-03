@@ -1,0 +1,29 @@
+import pandas as pd
+from datetime import datetime, timedelta
+
+data = {
+    'Product_ID': ['A', 'B', 'A', 'C', 'B', 'A'],
+    'Order_Quantity': [10, 5, 8, 12, 3, 7],
+    'Order_Date': ['2023-01-15', '2023-01-20', '2023-02-05', '2023-03-10', '2023-03-15', '2023-03-25'],
+    'Unit_Price': [15.0, 10.0, 15.0, 8.0, 10.0, 14.0]
+}
+
+df = pd.DataFrame(data)
+
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+end_date = datetime(2023, 3, 31)
+start_date = end_date - timedelta(days=30)
+
+past_month_data = df[(df['Order_Date'] >= start_date) & (df['Order_Date'] <= end_date)]
+
+past_month_data['Total_Revenue'] = past_month_data['Order_Quantity'] * past_month_data['Unit_Price']
+
+product_stats = past_month_data.groupby('Product_ID').agg({'Total_Revenue': 'sum', 'Order_Quantity': 'sum'})
+
+product_stats['Average_Price'] = product_stats['Total_Revenue'] / product_stats['Order_Quantity']
+
+average_price_all_products = product_stats['Average_Price'].mean()
+
+print("Average price of all products sold in the past month:", average_price_all_products)
+
