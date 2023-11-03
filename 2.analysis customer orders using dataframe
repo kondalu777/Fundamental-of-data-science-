@@ -1,0 +1,30 @@
+import pandas as pd
+from datetime import datetime
+
+data = {
+    'Order_ID': [1, 2, 3, 4, 5, 6],
+    'Customer_ID': [101, 102, 101, 103, 104, 102],
+    'Product_ID': ['A', 'B', 'A', 'C', 'B', 'A'],
+    'Order_Quantity': [10, 5, 8, 12, 3, 7],
+    'Order_Date': ['2023-01-01', '2023-02-15', '2023-01-03', '2023-03-10', '2023-04-20', '2023-02-20']
+}
+
+order_data = pd.DataFrame(data)
+
+order_data['Order_Date'] = pd.to_datetime(order_data['Order_Date'])
+
+print(order_data)
+
+customer_order_count = order_data['Customer_ID'].value_counts()
+print("1. Total number of orders made by each customer:")
+print(customer_order_count)
+
+average_order_quantity = order_data.groupby('Product_ID')['Order_Quantity'].mean()
+print("\n2. Average order quantity for each product:")
+print(average_order_quantity)
+
+earliest_order_date = order_data['Order_Date'].min()
+latest_order_date = order_data['Order_Date'].max()
+print("\n3. Earliest order date:", earliest_order_date)
+print("   Latest order date:", latest_order_date)
+
